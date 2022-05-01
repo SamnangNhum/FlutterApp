@@ -55,6 +55,11 @@ flutter:
   - web/assets/img/1.jpg
   - web/assets/img/6666-Logo.png
   - web/assets/img/6666-Logo-White.png
+  - web/assets/img/AK.jpg
+  - web/assets/img/BA.jpg
+  - web/assets/img/Mobile-legend.jpg
+  - web/assets/img/PUBG.jpg
+  - web/assets/img/ROS.jpg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
