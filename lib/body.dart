@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:myapp/services/testApiService.dart';
-import 'widgets/category.dart';
 import '../models/testApi.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
@@ -21,9 +19,9 @@ class _BodyState extends State<Body> {
       'Bullet Angel',
       'PUBG'
     ];
-    return FutureBuilder<List<TestApi>>(
+    return FutureBuilder<List<AllPostApi>>(
       future: testApiList,
-      builder: (context, AsyncSnapshot<List<TestApi>> snapshot) {
+      builder: (context, AsyncSnapshot<List<AllPostApi>> snapshot) {
         if (!snapshot.hasData) {
           return const Padding(
             padding: EdgeInsets.all(190),
@@ -84,10 +82,8 @@ class _BodyState extends State<Body> {
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: InkWell(
                   onTap: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Name()),
-                        )
+                        Navigator.pushNamed(context, '/category',
+                            arguments: '26')
                       },
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -101,10 +97,18 @@ class _BodyState extends State<Body> {
               width: 350,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset('web/assets/img/BA.jpg',
-                      fit: BoxFit.cover, width: 80))),
+              child: InkWell(
+                  onTap: () => {
+                        Navigator.pushNamed(context, '/category',
+                            arguments: '36')
+                      },
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'web/assets/img/BA.jpg',
+                        fit: BoxFit.cover,
+                        width: 80,
+                      )))),
           Container(
               padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
               width: 350,
@@ -140,24 +144,29 @@ class _BodyState extends State<Body> {
         return Container(
             alignment: Alignment.topCenter,
             width: 250,
-            padding: const EdgeInsets.fromLTRB(0, 20 , 15, 0),
-            child: Column(children: [
-              Expanded(
-                flex: 0,
-                child: Image.network('${testApi?.imageLink}',
-                    width: 230, height: 140, fit: BoxFit.fill),
-              ),
-              Expanded(
-                flex: 0,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    '${testApi?.title}',
-                    style: const TextStyle(fontSize: 14),
+            padding: const EdgeInsets.fromLTRB(0, 20, 15, 0),
+            child: InkWell(
+                onTap: () => {
+                      Navigator.pushNamed(context, '/post',
+                          arguments: '${testApi?.id}')
+                    },
+                child: Column(children: [
+                  Expanded(
+                    flex: 0,
+                    child: Image.network('${testApi?.imageLink}',
+                        width: 230, height: 140, fit: BoxFit.fill),
                   ),
-                ),
-              ),
-            ]));
+                  Expanded(
+                    flex: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Text(
+                        '${testApi?.title}',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ),
+                ])));
       },
       separatorBuilder: (context, index) {
         return const Divider(

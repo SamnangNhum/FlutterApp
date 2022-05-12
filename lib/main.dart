@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'widgets/category.dart';
+import 'widgets/post.dart';
 import 'body.dart';
 import './widgets/appBar.dart';
 
@@ -13,7 +14,32 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: ThemeData.dark(), home: const MyView());
+    return MaterialApp(
+        theme: ThemeData.dark(),
+        onGenerateRoute: (settings) {
+          final args = settings.arguments;
+          if (settings.name == '/category' || settings.name == '/post') {
+            return PageRouteBuilder(
+                settings: settings,
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return post(args);
+                },
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(1.0, 0.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+                  final offsetAnimation = animation.drive(tween);
+                  return SlideTransition(
+                      position: offsetAnimation, child: child);
+                },
+                );
+          }
+        },
+     
+        home: const MyView());
   }
 }
 

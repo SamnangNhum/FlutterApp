@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/services/testApiService.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:myapp/services/testApiService.dart';
 
-class Name extends StatefulWidget {
+class post extends StatefulWidget {
   final id;
-  Name(this.id, {Key? key}) : super(key: key);
+
+  const post(this.id, {Key? key}) : super(key: key);
 
   @override
-  State<Name> createState() => CategoryPage();
+  State<post> createState() => _postState();
 }
 
-class CategoryPage extends State<Name> {
+class _postState extends State<post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,15 +37,14 @@ class CategoryPage extends State<Name> {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('web/assets/img/AK.jpg'), fit: BoxFit.cover)),
+              image: AssetImage('web/assets/img/BA.jpg'), fit: BoxFit.cover)),
     );
   }
 
   FutureBuilder myBody(id) {
-    var testCatApiList = TestApiService().getTestCatApi(id);
-    print(testCatApiList);
+    var postApiList = TestApiService().getPostApi(id);
     return FutureBuilder(
-      future: testCatApiList,
+      future: postApiList,
       builder: (context, AsyncSnapshot snapshot) {
         if (!snapshot.hasData) {
           return const Padding(
@@ -64,32 +65,18 @@ class CategoryPage extends State<Name> {
             )),
           );
         }
-        return ListView.separated(
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            var testCatApi = snapshot.data?[index];
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(10 , 15 , 10 , 15),
-              child: Column(
-                
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0 , 0 ,0 , 10.0),
-                    child: Image.network('${testCatApi?.imageLink}', fit: BoxFit.cover),
-                  ),
-                  Text('${testCatApi?.title}')
-                ],
-              ),
-            );
-          },
-          separatorBuilder: (context, index) {
-            return const Divider(
-              color: Colors.black,
-              height: 0,
-            );
-          },
-          itemCount: snapshot.data?.length ?? 0,
-        );
+        return ListView(scrollDirection: Axis.vertical, children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+            child: Column(
+              children: [
+             
+
+                Html(data: '${snapshot.data[0].content}')
+              ],
+            ),
+          )
+        ]);
       },
     );
   }
